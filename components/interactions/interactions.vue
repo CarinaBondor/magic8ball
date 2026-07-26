@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFavouriteStore } from "@/store/favourited";
+import { useFavouriteStore } from "~/store/useFavouriteStore";
 
 const favouritesStore = useFavouriteStore();
 
@@ -39,9 +39,7 @@ const addToFavourites = () => {
     favouritesStore.toggleFavouriteAdvice(props.advice);
 };
 
-const isFavourited = computed(() =>
-    favouritesStore.isAdviceFavourited(props.advice.id)
-);
+const isFavourited = computed(() => favouritesStore.isAdviceFavourited(props.advice.id));
 
 const shareAdvice = async () => {
     const text = props.advice.advice;

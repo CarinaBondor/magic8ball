@@ -9,10 +9,22 @@
 
         <section
             class="ball"
-            :class="{ wiggle: isMoving }"
+            :class="{ wiggle: isMoving, 'is-loading': isLoading }"
         >
             <div class="center">
-                <template v-if="advice.advice?.length">
+                <div
+                    v-if="isLoading"
+                    class="d-flex justify-content-center align-items-center h-100"
+                >
+                    <div
+                        class="spinner-border text-primary"
+                        role="status"
+                    >
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
+                <template v-else-if="advice.advice?.length">
                     <p>{{ advice.advice }}</p>
                 </template>
 
@@ -33,21 +45,23 @@
 import { ref } from "vue";
 
 const advice = ref({});
-const isMoving = ref(Boolean);
+const isMoving = ref(false);
+const isLoading = ref(false);
 
 const getAdvice = async () => {
+    isLoading.value = true;
+    isMoving.value = false;
+
     try {
         const response = await fetch("https://api.adviceslip.com/advice");
         const data = await response.json();
 
-        setTimeout(() => {
-            isMoving.value = true;
-            advice.value = data.slip;
-            //allow time for shake
-        }, 400);
-        isMoving.value = false;
+        advice.value = data.slip;
+        isMoving.value = true;
     } catch (error) {
         isMoving.value = false;
+    } finally {
+        isLoading.value = false;
     }
 };
 </script>

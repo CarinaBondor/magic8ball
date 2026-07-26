@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFavouriteStore } from "@/store/favourited";
+import { useFavouriteStore } from "~/store/useFavouriteStore";
 
 const favouritesStore = useFavouriteStore();
 const favourites = computed(() => favouritesStore.favouritedAdvices);

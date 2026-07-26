@@ -10,6 +10,7 @@
                     id="searchTopic"
                     placeholder="Get some advice"
                     v-model="inputTerm"
+                    defer
                 />
 
                 <button
@@ -25,9 +26,7 @@
                 <advice-card :advices="advices.slips" />
             </template>
             <template v-else-if="inputTerm">
-                <p class="mt-3">
-                    No advices for "{{ inputTerm }}". Better luck next time!
-                </p>
+                <p class="mt-3">No advices for "{{ inputTerm }}". Better luck next time!</p>
             </template>
         </div>
     </div>
@@ -41,9 +40,7 @@ const advices = ref(null);
 
 const getAdvice = async () => {
     try {
-        const response = await fetch(
-            `https://api.adviceslip.com/advice/search/${inputTerm.value}`
-        );
+        const response = await fetch(`https://api.adviceslip.com/advice/search/${inputTerm.value}`);
 
         const data = await response.json();
 

@@ -1,0 +1,40 @@
+$primary: #103a68;
+$secondary: #3e4144;
+$success: #28a745;
+$danger: #dc3545;
+
+@import url('https://fonts.googleapis.com/css2?family=Akaya+Kanadaka&family=Delius&display=swap');
+
+$headings-font-family: 'Akaya Kanadaka', cursive; 
+$display-font-family: 'Akaya Kanadaka', cursive;
+$font-family-base: 'Delius', cursive; 
+
+body {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.btn-icon {
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    height: 20px;
+    justify-content: center;
+    padding: 0;
+    transition: color .3s ease;
+    width: 20px;
+
+    &:hover {
+        color: var(--bs-primary);
+    }
+
+    i {
+        font-size: 1rem;
+        font-weight: 600;
+    }
+}
+
+// Import Bootstrap AFTER setting variables and $color-mode-type
+@import 'bootstrap/scss/bootstrap.scss';
+

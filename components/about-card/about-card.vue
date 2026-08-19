@@ -21,6 +21,25 @@
 
                 <li>Tested with Vitest</li>
             </ul>
+
+            <p>Next plans for this project:</p>
+
+            <ul>
+                <li>Optimize performance</li>
+                <li>Add internationalization support</li>
+                <li>Add more tests</li>
+                <li>Tweak sharing feature</li>
+            </ul>
+
+            <p>
+                Check out the repo
+                <nuxt-link
+                    to="https://github.com/CarinaBondor/magic8ball"
+                    external
+                >
+                    here
+                </nuxt-link>
+            </p>
         </div>
     </div>
 </template>

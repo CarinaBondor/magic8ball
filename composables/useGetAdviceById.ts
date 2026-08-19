@@ -1,16 +1,28 @@
-export const useGetAdviceById = () => {
-    const advice = ref<any>(null);
+import type { Advice, AdviceQuery } from "~/types/advice";
+
+export const useSearchAdvice = () => {
+    const advices = ref<Advice[] | null>(null);
     const isLoading = ref(false);
 
-    const getAdviceById = async (id: string) => {
-        try {
-            const response = await $fetch(`https://api.adviceslip.com/advice/${id}`);
+    const getAdviceByQuery = async (query: string | null) => {
+        if (!query || !query.trim()) {
+            advices.value = [];
+            return;
+        }
 
-            return response;
+        isLoading.value = true;
+        try {
+            const data = await $fetch<AdviceQuery>(
+                `https://api.adviceslip.com/advice/search/${query}`,
+            );
+            advices.value = data.slips || [];
         } catch (e) {
             console.error("Error fetching advices:", e);
+            advices.value = [];
+        } finally {
+            isLoading.value = false;
         }
     };
 
-    return { advice, isLoading, getAdviceById };
+    return { advices, isLoading, getAdviceByQuery };
 };

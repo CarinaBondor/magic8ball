@@ -8,23 +8,35 @@
                     type="text"
                     class="form-control"
                     id="searchTopic"
-                    placeholder="Get some advice"
+                    placeholder="Type to search advice..."
                     v-model="inputTerm"
                 />
 
-                <button
-                    type="submit"
+                <!-- Optional: Show a spinner inside the input group when loading -->
+                <span
+                    v-if="isLoading"
                     class="input-group-text"
-                    @click="getAdviceByQuery(inputTerm)"
                 >
-                    Search
-                </button>
+                    <span
+                        class="spinner-border spinner-border-sm text-primary"
+                        role="status"
+                    ></span>
+                </span>
+                <span
+                    v-else
+                    class="input-group-text"
+                >
+                    <i class="bi bi-search"></i>
+                </span>
             </div>
 
-            <template v-if="advices">
+            <!-- Show results if we have them -->
+            <template v-if="advices && advices.length > 0">
                 <advice-card :advices="advices" />
             </template>
-            <template v-else-if="inputTerm">
+
+            <!-- Show no results only if the user typed something and we got 0 results back -->
+            <template v-else-if="inputTerm && advices && advices.length === 0">
                 <p class="mt-3">No advices for "{{ inputTerm }}". Better luck next time!</p>
             </template>
         </div>
@@ -32,9 +44,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-
-const inputTerm = ref(null);
-
+import { ref, watch, onUnmounted } from "vue";
+const inputTerm = ref<string>("");
 const { advices, isLoading, getAdviceByQuery } = useSearchAdvice();
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+watch(inputTerm, (newValue) => {
+    if (debounceTimer) {
+        clearTimeout(debounceTimer);
+    }
+    debounceTimer = setTimeout(() => {
+        getAdviceByQuery(newValue);
+    }, 300);
+});
+// Clean up the timer if the component is destroyed
+onUnmounted(() => {
+    if (debounceTimer) {
+        clearTimeout(debounceTimer);
+    }
+});
 </script>

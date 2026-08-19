@@ -10,20 +10,19 @@
                     id="searchTopic"
                     placeholder="Get some advice"
                     v-model="inputTerm"
-                    defer
                 />
 
                 <button
                     type="submit"
                     class="input-group-text"
-                    @click="getAdvice"
+                    @click="getAdviceByQuery(inputTerm)"
                 >
                     Search
                 </button>
             </div>
 
             <template v-if="advices">
-                <advice-card :advices="advices.slips" />
+                <advice-card :advices="advices" />
             </template>
             <template v-else-if="inputTerm">
                 <p class="mt-3">No advices for "{{ inputTerm }}". Better luck next time!</p>
@@ -32,19 +31,10 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 
 const inputTerm = ref(null);
-const advices = ref(null);
 
-const getAdvice = async () => {
-    try {
-        const response = await fetch(`https://api.adviceslip.com/advice/search/${inputTerm.value}`);
-
-        const data = await response.json();
-
-        advices.value = data;
-    } catch (error) {}
-};
+const { advices, isLoading, getAdviceByQuery } = useSearchAdvice();
 </script>

@@ -54,9 +54,7 @@ const shareAdvice = async () => {
             // User cancelled or error occurred
         }
     } else {
-        // Fallback: copy to clipboard
         await navigator.clipboard.writeText(text);
-        alert("Advice copied to clipboard!");
     }
 };
 </script>

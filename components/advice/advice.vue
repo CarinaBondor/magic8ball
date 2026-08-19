@@ -24,8 +24,8 @@
                     </div>
                 </div>
 
-                <template v-else-if="advice.advice?.length">
-                    <p>{{ advice.advice }}</p>
+                <template v-else-if="advice?.advice?.length">
+                    <p>{{ advice?.advice }}</p>
                 </template>
 
                 <template v-else>
@@ -35,7 +35,7 @@
         </section>
 
         <interactions
-            v-if="advice.advice?.length"
+            v-if="advice?.advice?.length"
             :advice="advice"
         />
     </div>
@@ -44,26 +44,31 @@
 <script setup>
 import { ref } from "vue";
 
-const advice = ref({});
 const isMoving = ref(false);
-const isLoading = ref(false);
 
+const { advice, isLoading, fetchRandomAdvice } = useAdvice();
 const getAdvice = async () => {
-    isLoading.value = true;
     isMoving.value = false;
-
-    try {
-        const response = await fetch("https://api.adviceslip.com/advice");
-        const data = await response.json();
-
-        advice.value = data.slip;
-        isMoving.value = true;
-    } catch (error) {
-        isMoving.value = false;
-    } finally {
-        isLoading.value = false;
-    }
+    await fetchRandomAdvice();
+    isMoving.value = true; // Shake after it loads
 };
+
+// const getAdvice = async () => {
+//     isLoading.value = true;
+//     isMoving.value = false;
+
+//     try {
+//         const response = await fetch("https://api.adviceslip.com/advice");
+//         const data = await response.json();
+
+//         advice.value = data.slip;
+//         isMoving.value = true;
+//     } catch (error) {
+//         isMoving.value = false;
+//     } finally {
+//         isLoading.value = false;
+//     }
+// };
 </script>
 
 <style lang="scss" src="./advice.scss"></style>

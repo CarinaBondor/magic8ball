@@ -1,8 +1,8 @@
 <template>
     <div class="app-header">
         <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-            <nuxt-link  
-                to="/" 
+            <nuxt-link
+                to="/"
                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
             >
                 Magic 8 ball
@@ -10,9 +10,10 @@
 
             <ul class="nav nav-pills">
                 <li class="nav-item">
-                    <nuxt-link 
-                        href="/" 
-                        class="btn btn-outline-primary me-2" aria-current="page"
+                    <nuxt-link
+                        to="/"
+                        class="btn btn-outline-primary me-2"
+                        aria-current="page"
                         active-class="active"
                     >
                         Home
@@ -20,8 +21,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <nuxt-link 
-                        to="/about" 
+                    <nuxt-link
+                        to="/about"
                         class="btn btn-outline-primary me-2"
                         active-class="active"
                     >
@@ -30,8 +31,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <nuxt-link 
-                        to="/favourites" 
+                    <nuxt-link
+                        to="/favourites"
                         class="btn btn-outline-primary me-2"
                         active-class="active"
                     >
@@ -40,8 +41,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <nuxt-link 
-                        to="/search" 
+                    <nuxt-link
+                        to="/search"
                         class="btn btn-outline-primary me-2"
                         active-class="active"
                     >

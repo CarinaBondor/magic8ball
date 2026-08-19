@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import type { Advice, AdviceSlipResponse } from "~/types/advice";
 
 export const useFavouriteStore = defineStore("favourite", () => {
-    const favouritedAdvices = ref<any[]>([]);
+    const favouritedAdvices = ref<Advice[]>([]);
 
     const countFavourite = computed(() => favouritedAdvices.value.length);
 
@@ -17,19 +18,23 @@ export const useFavouriteStore = defineStore("favourite", () => {
     function getFavsFromLocalStorage() {
         try {
             const storedFavs = JSON.parse(localStorage.getItem("favourites") || "[]") || [];
-            favouritedAdvices.value = storedFavs;
+
+            // Filter to ensure we only load valid Advice objects
+            favouritedAdvices.value = storedFavs.filter(
+                (fav: any) => fav && typeof fav === "object" && typeof fav.id !== "undefined",
+            );
         } catch (error) {
             console.error("Error getting favourites from localStorage:", error);
         }
     }
 
-    function toggleFavouriteAdvice(advice: any) {
+    function toggleFavouriteAdvice(advice: Advice | undefined) {
         if (!advice || !advice.id) {
             return;
         }
 
         const storedFavs = JSON.parse(localStorage.getItem("favourites") || "[]") || [];
-        const index = storedFavs.findIndex((fav: any) => fav.id === advice.id);
+        const index = storedFavs.findIndex((fav: Advice) => fav.id === advice.id);
 
         if (index !== -1) {
             storedFavs.splice(index, 1);

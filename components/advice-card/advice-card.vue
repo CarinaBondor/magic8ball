@@ -1,8 +1,7 @@
 <template>
-    <div v-if="validAdvices.length">
+    <div v-if="props.advices.length">
         <div
-            v-for="advice in validAdvices"
-            :key="advice.id"
+            v-for="advice in props.advices"
             class="row mt-3"
         >
             <div class="col">
@@ -19,26 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-
-interface Advice {
-    id: string | number;
-    advice: string;
-    [key: string]: any;
-}
+import type { Advice } from "~/types/advice";
 
 const props = defineProps<{
-    advices: Array<Advice | unknown>;
+    advices: Advice[];
 }>();
-
-const validAdvices = computed(() =>
-    props.advices.filter((item): item is Advice => {
-        if (!item || typeof item !== "object" || Array.isArray(item)) {
-            return false;
-        }
-
-        const candidate = item as Advice;
-        return typeof candidate.id === "string" || typeof candidate.id === "number";
-    }),
-);
 </script>

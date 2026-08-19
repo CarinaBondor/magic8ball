@@ -23,10 +23,11 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@vitejs/plugin-vue": "^5.2.3",
-    "@vitest/ui": "^3.0.9",
+    "@vitest/ui": "^4.1.11",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^26.0.0",
     "sass-embedded": "^1.86.0",
-    "vitest": "^3.0.9"
+    "typescript-eslint": "^8.67.0",
+    "vitest": "^4.1.11"
   }
 }

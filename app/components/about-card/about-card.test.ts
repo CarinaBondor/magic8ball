@@ -9,7 +9,7 @@ describe('AboutCard', () => {
         expect(text.trim()).toContain('Advice Slip API');
 
         expect(wrapper.text()).toContain('This project was made by Carina B.S.');
-        expect(wrapper.text()).toContain('Vue 3/Nuxt 3');
+        expect(wrapper.text()).toContain('Vue 3/Nuxt 4');
         expect(wrapper.text()).toContain('Pinia for state management');
         expect(wrapper.text()).toContain('Customized Bootstrap V5');
     });

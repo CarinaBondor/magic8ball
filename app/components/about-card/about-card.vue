@@ -4,7 +4,7 @@
             <p>This project was made by Carina B.S. with:</p>
 
             <ul>
-                <li>Vue 3/Nuxt 3</li>
+                <li>Vue 3/Nuxt 4</li>
 
                 <li>
                     <nuxt-link

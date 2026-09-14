@@ -1,6 +1,16 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import type { Advice, AdviceSlipResponse } from "~/types/advice";
+import type { Advice } from "~/types/advice";
+
+function isAdvice(value: unknown): value is Advice {
+    if (!value || typeof value !== "object") {
+        return false;
+    }
+
+    const { id, advice } = value as Record<string, unknown>;
+
+    return typeof id === "number" && typeof advice === "string" && advice.length > 0;
+}
 
 export const useFavouriteStore = defineStore("favourite", () => {
     const favouritedAdvices = ref<Advice[]>([]);
@@ -16,34 +26,38 @@ export const useFavouriteStore = defineStore("favourite", () => {
     }
 
     function getFavsFromLocalStorage() {
-        try {
-            const storedFavs = JSON.parse(localStorage.getItem("favourites") || "[]") || [];
+        if (!import.meta.client) {
+            return;
+        }
 
-            // Filter to ensure we only load valid Advice objects
-            favouritedAdvices.value = storedFavs.filter(
-                (fav: any) => fav && typeof fav === "object" && typeof fav.id !== "undefined",
+        try {
+            const storedFavs: unknown = JSON.parse(
+                localStorage.getItem("favourites") || "[]",
             );
+
+            favouritedAdvices.value = Array.isArray(storedFavs)
+                ? storedFavs.filter(isAdvice)
+                : [];
         } catch (error) {
             console.error("Error getting favourites from localStorage:", error);
+            favouritedAdvices.value = [];
         }
     }
 
     function toggleFavouriteAdvice(advice: Advice | undefined) {
-        if (!advice || !advice.id) {
+        if (!advice || !import.meta.client) {
             return;
         }
 
-        const storedFavs = JSON.parse(localStorage.getItem("favourites") || "[]") || [];
-        const index = storedFavs.findIndex((fav: Advice) => fav.id === advice.id);
+        const index = favouritedAdvices.value.findIndex((fav) => fav.id === advice.id);
 
         if (index !== -1) {
-            storedFavs.splice(index, 1);
+            favouritedAdvices.value.splice(index, 1);
         } else {
-            storedFavs.push(advice);
+            favouritedAdvices.value.push(advice);
         }
 
-        localStorage.setItem("favourites", JSON.stringify(storedFavs));
-        favouritedAdvices.value = storedFavs;
+        localStorage.setItem("favourites", JSON.stringify(favouritedAdvices.value));
     }
 
     return {

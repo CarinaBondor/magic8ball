@@ -3,6 +3,12 @@ export default defineNuxtConfig({
     devtools: { enabled: false },
     srcDir: "app/",
     css: ["~/assets/scss/theme.scss"],
+    app: {
+        pageTransition: {
+            name: "page",
+            mode: "out-in",
+        },
+    },
     vite: {
         css: {
             preprocessorOptions: {

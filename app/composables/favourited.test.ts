@@ -8,15 +8,19 @@ describe("useFavouriteStore", () => {
         setActivePinia(createPinia());
     });
 
-    it("filters out invalid entries loaded from localStorage", () => {
+    it("filters out invalid and incomplete entries loaded from localStorage", () => {
         localStorage.setItem(
             "favourites",
-            JSON.stringify(["ZgFtPfa2LBd", { id: "1", advice: "Be kind" }]),
+            JSON.stringify([
+                "ZgFtPfa2LBd",
+                { id: 1, advice: "Be kind" },
+                { id: 2 },
+            ]),
         );
 
         const store = useFavouriteStore();
         store.getFavsFromLocalStorage();
 
-        expect(store.favouritedAdvices).toEqual([{ id: "1", advice: "Be kind" }]);
+        expect(store.favouritedAdvices).toEqual([{ id: 1, advice: "Be kind" }]);
     });
 });

@@ -2,11 +2,14 @@
     <div v-if="props.advices.length">
         <div
             v-for="advice in props.advices"
+            :key="advice.id"
             class="row mt-3"
         >
             <div class="col">
                 <div class="card rounded-3 shadow-sm">
-                    <div class="card-body d-flex flex-row flex-wrap justify-content-between">
+                    <div
+                        class="card-body d-flex flex-row flex-wrap justify-content-between"
+                    >
                         <p class="m-0 flex-grow-1">{{ advice.advice }}</p>
 
                         <interactions :advice="advice" />
